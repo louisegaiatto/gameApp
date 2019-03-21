@@ -16,6 +16,7 @@ function inicializa(){
 	ajaxCall("games.php?action=recuperaFabricantes", inicializaSelecaoFabricantes);
 	ajaxCall("games.php?action=mostraUsuarios", listaUsuarios);
 	ajaxCall("games.php?action=mostraJogos", listaJogos);
+	ajaxCall("games.php?action=mostraRemetente", listaRemetentes);
 }
 function insereUsuario(){	
 	var i_use = document.getElementById('i_use').value;
@@ -76,5 +77,9 @@ function listaUsuarios(lisUsuarios){
 }
 function listaJogos(lisJogos){
 	document.getElementById('tab_jogos').innerHTML = lisJogos;
+}
+
+function inicializaSelecaoRemetentes(lisRemetentes){  
+  inicializaSelecao(lisRemetentes, "listaRemetentes");
 }
 

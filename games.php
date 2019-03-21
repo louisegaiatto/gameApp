@@ -54,10 +54,21 @@ function mostraUsuarios(){
 function mostraJogos(){
 		$con = conectaDB();
 		$result = mysqli_query($con,"SELECT titulos.nome,fabricantes.nome,preco,classificacao,titulos.cod FROM titulos,fabricantes WHERE titulos.fabricante  =  fabricantes.cod ORDER BY titulos.nome"); 		
-		mostraTabela(4,$result,'Jogo');
+		mostraTabela(1,$result,'Jogo');
 		$con->close();
 }
 
+function mostraForum(){
+		$con = conectaDB();
+		$result = mysqli_query($con,"SELECT nome FROM usuarios"); 		
+		mostraTabela(4,$result,'Remetente');
+		$con->close();
+}
+
+	if(@$_REQUEST['action'] == "recuperaNome")     //recupera lista de nomes
+	{
+		recuperaTabela('usuarios');
+	}
 	if(@$_REQUEST['action'] == "recuperaCidades")     //recupera lista de nomes das cidades
 	{
 		recuperaTabela('cidades');
