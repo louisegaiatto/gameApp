@@ -17,6 +17,7 @@ function inicializa(){
 	ajaxCall("games.php?action=mostraUsuarios", listaUsuarios);
 	ajaxCall("games.php?action=mostraJogos", listaJogos);
 	ajaxCall("games.php?action=mostraRemetente", listaRemetentes);
+	ajaxCall("games.php?action=mostraForum", listaForum);
 }
 function insereUsuario(){	
 	var i_use = document.getElementById('i_use').value;
@@ -81,5 +82,10 @@ function listaJogos(lisJogos){
 
 function inicializaSelecaoRemetentes(lisRemetentes){  
   inicializaSelecao(lisRemetentes, "listaRemetentes");
+}
+
+// forum
+function listaForum(lista){
+	document.getElementById('tab_forum').innerHTML = lista;
 }
 
