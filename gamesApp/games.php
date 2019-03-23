@@ -6,7 +6,7 @@
 
 
 function conectaDB(){
-	$con  =  mysqli_connect("192.168.100.100","root","magic","lulu-games");
+	$con  =  mysqli_connect("localhost","root","","games");
 	
 	if(!$con){
 		echo "<h2>Erro na conexao com a base dados...</h2>"; 
@@ -54,21 +54,10 @@ function mostraUsuarios(){
 function mostraJogos(){
 		$con = conectaDB();
 		$result = mysqli_query($con,"SELECT titulos.nome,fabricantes.nome,preco,classificacao,titulos.cod FROM titulos,fabricantes WHERE titulos.fabricante  =  fabricantes.cod ORDER BY titulos.nome"); 		
-		mostraTabela(1,$result,'Jogo');
+		mostraTabela(4,$result,'Jogo');
 		$con->close();
 }
 
-function mostraForum(){
-		$con = conectaDB();
-		$result = mysqli_query($con,"SELECT nome FROM usuarios"); 		
-		mostraTabela(4,$result,'Remetente');
-		$con->close();
-}
-
-	if(@$_REQUEST['action'] == "recuperaNome")     //recupera lista de nomes
-	{
-		recuperaTabela('usuarios');
-	}
 	if(@$_REQUEST['action'] == "recuperaCidades")     //recupera lista de nomes das cidades
 	{
 		recuperaTabela('cidades');
@@ -126,5 +115,41 @@ function mostraForum(){
 	{
 		mostraJogos();
 	}
+
+
+	// Forum
+	
+	if(@$_REQUEST['action'] == "recuperaRemetentes")
+	{
+		recuperaTabela('usuarios');
+	}
+	
+	if(@$_REQUEST['action'] == "mostraForum")
+	{
+		mostraForum();
+	}
+
+	function mostraForum(){
+		$con = conectaDB();
+		$result = mysqli_query($con,"SELECT f.titulo, f.mensagem, usuarios.nome, f.cod FROM forum as f LEFT JOIN usuarios on usuarios.cod = f.codUsuario ORDER BY f.cod");
+		mostraTabela(3,$result,'Forum');
+		$con->close();
+	}
+
+	if(@$_REQUEST['action'] == "insForum") 
+	{
+		$con = conectaDB();
+		$consulta = mysqli_query($con,"SELECT cod FROM usuarios WHERE nome = '".$_REQUEST['remetente']."' LIMIT 1");
+		$codUsuario = mysqli_fetch_array($consulta, MYSQLI_NUM)[0];
+		
+		$titulo = $con->real_escape_string($_REQUEST['titulo']);
+		$mensagem = $con->real_escape_string($_REQUEST['mensagem']);
+		// $classificacao = intval($codUsuario);
+		
+		mysqli_query($con,"INSERT INTO forum (codUsuario, titulo, mensagem) VALUES('$codUsuario','$titulo','$mensagem');");
+		$con->close();			
+		mostraForum();
+	}
+	
 ?>
 
